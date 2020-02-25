@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { sequelize } = require('../db/sequelize');
+const { sequelize } = require('../../db/sequelize');
 
 const studentModel = sequelize.define('student', {
     student_id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
