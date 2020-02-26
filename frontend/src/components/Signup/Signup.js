@@ -22,13 +22,10 @@ class Signup extends Component {
                 </Form>
                 <p className="text-muted">Are you an employer?</p>
                 <Link to="/company">Sign up here</Link>
-            </Container> 
+            </Container>
         )
     };
 };    
             
-export default Signup;          
+export default Signup;     
             
-
-
-

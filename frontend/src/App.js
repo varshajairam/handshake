@@ -3,10 +3,16 @@ import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import Main from './Main';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './js/reducers/';
+import { createStore, combineReducers } from 'redux';
+import loginReducer from './components/Login/store/reducer';
+import signupReducer from './components/Signup/store/reducer';
 
-const store = createStore(rootReducer);
+const rootReducer = combineReducers({
+  login: loginReducer,
+  signup: signupReducer
+})
+
+const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 function App() {
   return (

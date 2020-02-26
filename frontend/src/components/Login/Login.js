@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import { loginUser } from '../../js/actions';
 import { connect } from 'react-redux';
+import { addEmail, addPassword, setError} from './store/action';
 
 class Login extends Component {
-    errorMsg = null;
-    state = {
-        email_id: "",
-        password: "",
-    };
-    
     submitHandler = async (event) => {
         event.preventDefault();
         const data = {
-            email_id: this.state.email_id,
-            password: this.state.password
+            email_id: this.props.email_id,
+            password: this.props.password
         }
         axios.defaults.withCredentials = true;
         // try{
@@ -36,20 +30,18 @@ class Login extends Component {
             }
         })
         .catch(err=>{
-            this.errorMsg = <Alert variant="danger">{err.response.data}</Alert>;
+            this.props.setError(err.response.data);
         })
     }
 
     emailHandler = (event) => {
-        this.setState({
-            email_id: event.target.value
-        })
+        this.props.addEmail(event.target.value);
+        this.props.setError(null);
     }
 
     passwordHandler = (event) => {
-        this.setState({
-            password: event.target.value
-        })
+        this.props.addPassword(event.target.value);
+        this.props.setError(null);
     }
 
     render() {
@@ -65,7 +57,7 @@ class Login extends Component {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" required onChange={this.passwordHandler} />
                     </Form.Group>
-                    {this.errorMsg}
+                    {this.props.error && <Alert variant="danger">{this.props.error}</Alert>}
                     <Button type="submit">Sign in</Button>
                 </Form>
             </Container>            
@@ -73,17 +65,20 @@ class Login extends Component {
     };
 };
 
-// const mapStateToProps = (state) => {
-//     return {
-//         credentials: state
-//     };
-// }
+const mapStateToProps = (state) => {
+    return {
+        email_id: state.login.email_id,
+        password: state.login.password,
+        error: state.login.error
+    };
+}
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         loginUser: (email_id, password) => dispatch(loginUser({email_id, password}))
-//     }
-// }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addEmail: (email_id) => dispatch(addEmail(email_id)),
+        addPassword: (password) => dispatch(addPassword(password)),
+        setError: (error) => dispatch(setError(error))
+    }
+}
 
-//connect(mapStateToProps, mapDispatchToProps)(Login)
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

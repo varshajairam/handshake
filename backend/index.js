@@ -5,6 +5,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+//const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));

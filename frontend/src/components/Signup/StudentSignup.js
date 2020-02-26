@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { addSignupEmail, addFirstName, addLastName, addSignupPassword, addCollegeName, setSignupError } from './store/action';
 
 class StudentSignup extends Component {
-    state = {
-        first_name: "",
-        last_name: "",
-        email_id: "",
-        password: "",
-        collegeName: "",
-        errorMsg: null    
-    }
-    
     submitHandler = async (event) => {
         event.preventDefault();
-        let data = {...this.state};
-        data.entity = "student";
+        let data = {
+            first_name: this.props.first_name,
+            last_name: this.props.last_name,
+            email_id: this.props.email_id,
+            password: this.props.password,
+            college_name: this.props.college_name,
+            entity: "student"
+        };
         axios.defaults.withCredentials = true;
         // try{
         //     let response = await axios.post("http://localhost:3001" + "/signup", data);
@@ -38,38 +37,33 @@ class StudentSignup extends Component {
             }
         })
         .catch(err=>{
-            this.errorMsg = <Alert variant="danger">{err.response.data}</Alert>;
+            this.props.setSignupError(err.response.data);
         })
     }
 
     emailHandler = (event) => {
-        this.setState({
-            email_id: event.target.value
-        })
+        this.props.addSignupEmail(event.target.value);
+        this.props.setSignupError(null);
     }
 
     passwordHandler = (event) => {
-        this.setState({
-            password: event.target.value
-        })
+        this.props.addSignupPassword(event.target.value);
+        this.props.setSignupError(null);
     }
 
     firstNameHandler = (event) => {
-        this.setState({
-            first_name: event.target.value
-        })
+        this.props.addFirstName(event.target.value);
+        this.props.setSignupError(null);
     }
 
     lastNameHandler = (event) => {
-        this.setState({
-            last_name: event.target.value
-        })
+        this.props.addLastName(event.target.value);
+        this.props.setSignupError(null);
     }
 
     collegeNameHandler = (event) => {
-        this.setState({
-            college_name: event.target.value
-        })
+        this.props.addCollegeName(event.target.value);
+        this.props.setSignupError(null);
     }
 
     render() {
@@ -99,9 +93,9 @@ class StudentSignup extends Component {
                     </Form.Group>
                     <Form.Group controlId="formGroupCollege">
                         <Form.Label>College Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter college name" required onChange={this.collegeName} />
+                        <Form.Control type="text" placeholder="Enter college name" required onChange={this.collegeNameHandler} />
                     </Form.Group>
-                    {this.state.errorMsg}
+                    {this.props.error && <Alert variant="danger">{this.props.error}</Alert>}
                     <Button type="submit">Confirm</Button>
                 </Form>
             </Container>            
@@ -109,4 +103,26 @@ class StudentSignup extends Component {
     };
 };
 
-export default StudentSignup;
+const mapStateToProps = (state) => {
+    return {
+        first_name: state.signup.first_name,
+        last_name: state.signup.last_name,
+        email_id: state.signup.email_id,
+        password: state.signup.password,
+        college_name: state.signup.college_name,
+        error: state.signup.error
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addSignupEmail: (email_id) => dispatch(addSignupEmail(email_id)),
+        addSignupPassword: (password) => dispatch(addSignupPassword(password)),
+        addFirstName: (first_name) => dispatch(addFirstName(first_name)),
+        addLastName: (last_name) => dispatch(addLastName(last_name)),
+        addCollegeName: (college_name) => dispatch(addCollegeName(college_name)),
+        setSignupError: (error) => dispatch(setSignupError(error))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentSignup);

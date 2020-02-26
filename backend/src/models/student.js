@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
-const { sequelize } = require('../../db/sequelize');
+const { sequelize } = require('../db/sequelize');
 
 const studentModel = sequelize.define('student', {
-    student_id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
     first_name: { type: Sequelize.STRING },
     last_name: { type: Sequelize.STRING },
     dob: { type: Sequelize.DATE },
@@ -13,9 +12,7 @@ const studentModel = sequelize.define('student', {
     email_id: { type: Sequelize.STRING, unique: true, validate: { isEmail: true } },
     password: { type: Sequelize.STRING },
     phone_number: { type: Sequelize.STRING, unique: true },
-    skillset: { type: Sequelize.JSON },
     profile_pic: { type: Sequelize.BLOB },
-    resume: { type: Sequelize.STRING }
 });
 
 module.exports = studentModel;

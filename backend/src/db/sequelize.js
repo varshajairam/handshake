@@ -2,7 +2,6 @@ const Sequelize = require('sequelize');
 
 const options = {
     freezeTableName: true,
-    timestamps: false,
 };
 
 const sequelize = new Sequelize(process.env.DATABASE, process.env.USER, process.env.PASSWORD, {
@@ -25,5 +24,12 @@ sequelize
     .catch((err) => {
         console.log('Unable to connect to the database: ', err);
     })
+
+sequelize.sync()
+    .then(() => {
+        console.log('DB Created Successfully...');
+    }).catch(err => {
+        console.log('DB Creation Error: ', err.message);
+})
 
 module.exports.sequelize = sequelize;
