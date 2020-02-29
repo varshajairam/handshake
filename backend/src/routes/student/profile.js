@@ -2,14 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 
+const dateformat = require('dateformat');
+
+const auth = require('../../middleware/auth');
+
 const Student = require('../../models/student');
 const Education = require('../../models/education');
+const Experience = require('../../models/experience');
+const SkillSet = require('../../models/skillset');
 
-router.get('/details', async (req, res) => {
+router.get('/details', auth, async (req, res) => {
     try {
         const basicDetails = await Student.findOne({
             where: {
-                student_id: req.student_id,
+                id: req.user.id,
             },
         });
         if (basicDetails) {
@@ -20,56 +26,46 @@ router.get('/details', async (req, res) => {
     }
 });
 
-router.post('/details', async (req, res) => {
+router.post('/details', auth, async (req, res) => {
     try {
+        const details = req.body;
         const basicDetails = await Student.findOne({
             where: {
-                student_id: req.student_id,
+                id: details.id,
             },
         });
         if (basicDetails) {
-            return res.status(200).json(basicDetails);
+            const updatedStudent = await basicDetails.update({
+                first_name: details.first_name,
+                last_name: details.last_name,
+                dob: details.dob,
+                city: details.city,
+                state: details.state,
+                country: details.country,
+                career_obj: details.career_obj,
+                email_id: details.email_id,
+                password: details.password,
+                phone_number: details.phone_number,
+                profile_pic: details.profile_pic,
+            });
+            const student = await Student.findOne({
+                where: {
+                    id: updatedStudent.id,
+                },
+            });
+            res.status(200).json(student);
         }
     } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
+        console.log(e);
+        return res.status(500).json('Unable to save data.');
     }
 });
 
-router.get('/objective', async (req, res) => {
-    try {
-        const objective = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
-        });
-        if (objective) {
-            return res.status(200).json(objective);
-        }
-    } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
-    }
-});
-
-router.post('/objective', async (req, res) => {
-    try {
-        const objective = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
-        });
-        if (objective) {
-            return res.status(200).json(objective);
-        }
-    } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
-    }
-});
-
-router.get('/education', async (req, res) => {
+router.get('/education', auth, async (req, res) => {
     try {
         const education = await Education.findAll({
             where: {
-                student_id: req.query.student_id,
+                student_id: req.user.id,
             },
         });
         if (education) {
@@ -80,17 +76,9 @@ router.get('/education', async (req, res) => {
     }
 });
 
-router.post('/education', async (req, res) => {
+router.post('/education', auth, async (req, res) => {
     try {
         const education = req.body;
-        // let educationEntry = await Education.findOne({
-        //     where: {
-        //         student_id: req.student_id,
-        //     },
-        // });
-        // if (educationEntry) {
-        //     return res.status(404).send('');
-        // }
         const educationEntry = new Education({
             ...education,
         });
@@ -101,41 +89,42 @@ router.post('/education', async (req, res) => {
     }
 });
 
-router.get('/experience', async (req, res) => {
+router.get('/experience', auth, async (req, res) => {
     try {
-        const experience = await Student.findOne({
+        const experience = await Experience.findAll({
             where: {
-                student_id: req.student_id,
+                student_id: req.user.id,
             },
         });
         if (experience) {
+            // experience[0].start = dateformat(experience[0].start_date, 'shortDate');
+            // experience[0].end = dateformat(experience[0].start_date, 'shortDate');
             return res.status(200).json(experience);
         }
     } catch (e) {
+        console.log(e)
         return res.status(500).json('Unable to fetch data.');
     }
 });
 
-router.post('/experience', async (req, res) => {
+router.post('/experience', auth, async (req, res) => {
     try {
-        const experience = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
+        const experience = req.body;
+        const experienceEntry = new Experience({
+            ...experience,
         });
-        if (experience) {
-            return res.status(200).json(experience);
-        }
+        await experienceEntry.save();
+        res.status(200).json('Successful');
     } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
+        return res.status(500).json('Unable to save data.');
     }
 });
 
-router.get('/skillset', async (req, res) => {
+router.get('/skillset', auth, async (req, res) => {
     try {
-        const skillset = await Student.findOne({
+        const skillset = await SkillSet.findAll({
             where: {
-                student_id: req.student_id,
+                student_id: req.user.id,
             },
         });
         if (skillset) {
@@ -146,22 +135,20 @@ router.get('/skillset', async (req, res) => {
     }
 });
 
-router.post('/skillset', async (req, res) => {
+router.post('/skillset', auth, async (req, res) => {
     try {
-        const skillset = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
+        const skillset = req.body;
+        const skillEntry = new SkillSet({
+            ...skillset,
         });
-        if (skillset) {
-            return res.status(200).json(skillset);
-        }
+        await skillEntry.save();
+        res.status(200).json('Successful');
     } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
+        return res.status(500).json('Unable to save data.');
     }
 });
 
-router.get('/profilepic', async (req, res) => {
+router.get('/profilepic', auth, async (req, res) => {
     try {
         const profilepic = await Student.findOne({
             where: {
@@ -176,7 +163,7 @@ router.get('/profilepic', async (req, res) => {
     }
 });
 
-router.post('/profilepic', async (req, res) => {
+router.post('/profilepic', auth, async (req, res) => {
     try {
         const profilepic = await Student.findOne({
             where: {
@@ -185,37 +172,6 @@ router.post('/profilepic', async (req, res) => {
         });
         if (profilepic) {
             return res.status(200).json(profilepic);
-        }
-    } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
-    }
-});
-
-router.get('/contactInfo', async (req, res) => {
-    try {
-        const contactInfo = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
-        });
-        if (contactInfo) {
-            return res.status(200).json(contactInfo);
-        }
-    } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
-    }
-});
-
-
-router.post('/contactInfo', async (req, res) => {
-    try {
-        const contactInfo = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
-        });
-        if (contactInfo) {
-            return res.status(200).json(contactInfo);
         }
     } catch (e) {
         return res.status(500).json('Unable to fetch data.');

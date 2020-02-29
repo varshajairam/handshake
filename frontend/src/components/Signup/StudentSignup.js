@@ -33,7 +33,7 @@ class StudentSignup extends Component {
         axios.post("http://localhost:3001" + "/signup", data)
         .then(res => {
             if(res.status == 200){
-                //this.props.history.push('/dashboard');
+                this.props.history.push('/login');
             }
         })
         .catch(err=>{

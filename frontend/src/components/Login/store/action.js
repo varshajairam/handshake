@@ -8,6 +8,11 @@ export const addPassword = (payload) => {
     return { type: actionTypes.ADD_PASSWORD, payload}
 };
 
-export const setError = (payload) => {
-    return { type: actionTypes.SET_ERROR, payload }
+export const authSuccess = (payload) => {
+    localStorage.setItem('token', payload);
+    return { type: actionTypes.AUTH_SUCCESS, payload}
+};
+
+export const authFail = (payload) => {
+    return { type: actionTypes.AUTH_FAIL, payload }
 };

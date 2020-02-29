@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { addEmail, addPassword, setError} from './store/action';
+import { addEmail, addPassword, authSuccess, authFail} from './store/action';
 
 class Login extends Component {
     submitHandler = async (event) => {
@@ -26,22 +26,21 @@ class Login extends Component {
         axios.post("http://localhost:3001" + "/login", data)
         .then(res => {
             if(res.status == 200){
-                //this.props.history.push('/dashboard');
+                this.props.authSuccess(res.data.token);
+                this.props.history.push('/dashboard');
             }
         })
         .catch(err=>{
-            this.props.setError(err.response.data);
+            this.props.authFail(err.response.data.msg);
         })
     }
 
     emailHandler = (event) => {
         this.props.addEmail(event.target.value);
-        this.props.setError(null);
     }
 
     passwordHandler = (event) => {
         this.props.addPassword(event.target.value);
-        this.props.setError(null);
     }
 
     render() {
@@ -77,7 +76,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addEmail: (email_id) => dispatch(addEmail(email_id)),
         addPassword: (password) => dispatch(addPassword(password)),
-        setError: (error) => dispatch(setError(error))
+        authSuccess: (token) => dispatch(authSuccess(token)),
+        authFail: (error) => dispatch(authFail(error))
     }
 }
 
