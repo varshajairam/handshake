@@ -13,49 +13,45 @@ import { connect } from 'react-redux';
 class Main extends Component {
 
     render() {
-        // let routes = (
-        //     <Switch>
-        //         <Route path="/" component={Navigation} />
-        //         <Route path="/login" component={Login} />
-        //         <Redirect to='/' />
-        //     </Switch>           
-        // );
-    
-        // if(localStorage.getItem('token')){
-        //     routes = (
-        //         <Switch>
-        //             <Route path="/" component={Navigation} />            
-        //             <Route path="/signup" component={Signup} />
-        //             <Route path="/student" component={StudentSignup} />
-        //             <Route path="/company" component={CompanySignup} />
-        //             <Route path="/profile" component={Profile} />
-        //             <Route path="/logout" component={Logout} />
-        //             <Route path="/dashboard" component={Dashboard} />
-        //             <Redirect to='/' />
-        //         </Switch>
-        //     );
-        // }
-        // return (
-        //     <div>
-        //         {routes}
-        //     </div>
-
-            
-        // );
-
-        return (
-            <div>
-                <Route path="/" component={Navigation} />
+        let routes = (
+            <Switch>                
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/student" component={StudentSignup} />
-                <Route path="/company" component={CompanySignup} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/logout" component={Logout} />
-                <Route path="/dashboard" component={Dashboard} />
-            </div>
-            
+                <Redirect to='/' />
+            </Switch>           
         );
+    
+        if(localStorage.getItem('token')){
+            routes = (
+                <Switch>                               
+                    <Route path="/student" component={StudentSignup} />
+                    <Route path="/company" component={CompanySignup} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/logout" component={Logout} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Redirect to='/' />
+                </Switch>
+            );
+        }
+        return (
+            <div>
+                {routes}
+            </div>
+        );
+
+        // return (
+        //     <div>
+        //         <Route path="/" component={Navigation} />
+        //         <Route path="/login" component={Login} />
+        //         <Route path="/signup" component={Signup} />
+        //         <Route path="/student" component={StudentSignup} />
+        //         <Route path="/company" component={CompanySignup} />
+        //         <Route path="/profile" component={Profile} />
+        //         <Route path="/logout" component={Logout} />
+        //         <Route path="/dashboard" component={Dashboard} />
+        //     </div>
+            
+        // );
     };
 };
 

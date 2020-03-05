@@ -4,17 +4,16 @@ const initialState = {
     basicDetails: null,
     education: null,
     experience: null,
-    skillset: null,
+    skillset: [],
     mode: false
 }
-
+ 
 const profileReducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SAVE_BASIC_DETAILS:
             return {
                 ...state,
-                basicDetails: action.payload,
-                
+                basicDetails: action.payload,                
             }
         case actionTypes.SAVE_EDUCATION_INFO:
             return {

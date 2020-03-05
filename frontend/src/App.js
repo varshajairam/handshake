@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import Main from './Main';
@@ -11,6 +11,7 @@ import profileReducer from './containers/Profile/store/reducer';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faEdit, faUser } from '@fortawesome/free-solid-svg-icons';
+import Navigation from '../src/components/Navbar/Navbar';
 
 library.add(fab, faEdit, faUser);
 
@@ -23,14 +24,17 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-function App() {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Main />
-      </BrowserRouter>
-    </Provider>
-  );
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <BrowserRouter>
+          <Navigation props = {this.props}/>
+          <Main />
+        </BrowserRouter>
+      </Provider>
+    );
+  }  
 }
 
 export default App;

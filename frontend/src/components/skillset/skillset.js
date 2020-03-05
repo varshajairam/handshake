@@ -12,10 +12,10 @@ export const Skillset = (props) => {
                 aria-label="Add skills"
                 aria-describedby="basic-addon2"/>
                 <InputGroup.Append>
-                    <Button variant="outline-success" type="button">Add</Button>
+                    <Button variant="outline-success" type="button" onSubmit={props.submitHandler}>Add</Button>
                 </InputGroup.Append>
             </InputGroup>
-            {props.skills}               
+            {props.skillset}               
             </Card.Body>
         </Card>
     );  

@@ -134,6 +134,18 @@ class Profile extends Component {
         })
     }
 
+    saveSkillset = (event) => {
+        this.props.skillset.push(event.target.value);
+        axios.post("http://localhost:3001/profile/skillset", this.props.skillset)
+        .then(res => {
+            if(res.status === 200){ 
+            }
+        })
+        .catch(err=>{
+            //this.props.authFail(err.response.data.msg);
+        })
+    }
+
     render(){
         // if(this.props.basicDetails && this.props.education && this.props.education.length && this.props.experience && this.props.experience.length){
             return (
@@ -141,7 +153,7 @@ class Profile extends Component {
                     <Row>
                         <Col sm={4} md={4} lg={4}>
                             <BasicDetails details={this.props.basicDetails} education={this.props.education} updateHandler = {this.updateBasicDetails} submitHandler={this.saveBasicDetails} mode = {this.props.mode} modeHandler = {this.changeMode}></BasicDetails><br/>
-                            <Skillset></Skillset>
+                            <Skillset skills={this.props.skillset} submitHandler={this.saveSkillset}></Skillset>
                         </Col>
                         <Col sm={8} md={8} lg={8}>
                             <CareerObjective career_obj = {this.props.basicDetails ? this.props.basicDetails.career_obj : ''} updateHandler = {this.updateCareerObj} submitHandler={this.saveCareerObj} save = {this.props.save} enableSave={this.enableSave}></CareerObjective><br/>
