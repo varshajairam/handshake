@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Image, Button, Row, Col, Form } from 'react-bootstrap';
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import user from '../../assets/user.png';
 
@@ -70,6 +71,9 @@ export const BasicDetails = (props) => {
             <Row className="justify-content-center">
                 <Image src={user} width="100"
                     height="100" roundedCircle />
+                <Button variant="link" style={{marginLeft: '-102px'}} onClick={props.modeHandler}><FontAwesomeIcon icon={faCamera} />
+                    <p className="text-muted font-weight-bold">Add Photo</p>
+                </Button>
             </Row>
             {content}
             </Card.Body>

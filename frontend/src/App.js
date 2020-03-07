@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <Navigation props = {this.props}/>
+          <Navigation />
           <Main />
         </BrowserRouter>
       </Provider>

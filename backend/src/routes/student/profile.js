@@ -2,6 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
+const multer = require('multer');
+
+const upload = multer({ dest: 'uploads/' });
+
 const dateformat = require('dateformat');
 
 const auth = require('../../middleware/auth');
@@ -46,7 +50,6 @@ router.post('/details', auth, async (req, res) => {
                 email_id: details.email_id,
                 password: details.password,
                 phone_number: details.phone_number,
-                profile_pic: details.profile_pic,
             });
             const student = await Student.findOne({
                 where: {
@@ -163,18 +166,11 @@ router.get('/profilepic', auth, async (req, res) => {
     }
 });
 
-router.post('/profilepic', auth, async (req, res) => {
+router.post('/profilepic', upload.single('profile_pic'), auth, async (req, res) => {
     try {
-        const profilepic = await Student.findOne({
-            where: {
-                student_id: req.student_id,
-            },
-        });
-        if (profilepic) {
-            return res.status(200).json(profilepic);
-        }
+        res.send(req.file);
     } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
+        return res.status(400).json('Unable to fetch data.');
     }
 });
 

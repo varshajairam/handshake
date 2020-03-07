@@ -3,6 +3,7 @@ import { Container, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { addEmail, addPassword, authSuccess, authFail} from './store/action';
+import { PATH } from '../../config';
 
 class Login extends Component {
     submitHandler = async (event) => {
@@ -23,7 +24,7 @@ class Login extends Component {
         // } catch(err){
         //     this.errorMsg = <Alert variant="danger">{err.response.data}</Alert>
         // }
-        axios.post("http://localhost:3001" + "/login", data)
+        axios.post(PATH + "/login", data)
         .then(res => {
             if(res.status == 200){
                 this.props.authSuccess(res.data.token);
