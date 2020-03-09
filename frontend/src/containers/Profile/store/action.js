@@ -20,6 +20,14 @@ export const changeMode = (payload) => {
     return { type: actionTypes.CHANGE_MODE, payload }
 };
 
+export const changeEdMode = (payload) => {
+    return { type: actionTypes.CHANGE_EDUCATION_MODE, payload }
+};
+
 export const enableSave = (payload) => {
     return { type: actionTypes.ENABLE_SAVE, payload }
+};
+
+export const saveProfilePic = (payload) => {
+    return { type: actionTypes.SAVE_PROFILE_PIC, payload }
 };

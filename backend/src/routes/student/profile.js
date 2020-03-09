@@ -4,9 +4,20 @@ const router = express.Router();
 
 const multer = require('multer');
 
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null , file.originalname)
+    }
+});
+
+const upload = multer({ storage: storage });
 
 const dateformat = require('dateformat');
+
+const fs = require('fs');
 
 const auth = require('../../middleware/auth');
 
@@ -84,6 +95,7 @@ router.post('/education', auth, async (req, res) => {
         const education = req.body;
         const educationEntry = new Education({
             ...education,
+            student_id: req.user.id,
         });
         await educationEntry.save();
         res.status(200).json('Successful');
@@ -105,7 +117,6 @@ router.get('/experience', auth, async (req, res) => {
             return res.status(200).json(experience);
         }
     } catch (e) {
-        console.log(e)
         return res.status(500).json('Unable to fetch data.');
     }
 });
@@ -131,7 +142,11 @@ router.get('/skillset', auth, async (req, res) => {
             },
         });
         if (skillset) {
-            return res.status(200).json(skillset);
+            const skills = [];
+            skillset.forEach((skillObj) => {
+                skills.push(skillObj.skill);
+            })
+            return res.status(200).json(skills);
         }
     } catch (e) {
         return res.status(500).json('Unable to fetch data.');
@@ -140,9 +155,9 @@ router.get('/skillset', auth, async (req, res) => {
 
 router.post('/skillset', auth, async (req, res) => {
     try {
-        const skillset = req.body;
         const skillEntry = new SkillSet({
-            ...skillset,
+            skill: req.body.skill,
+            student_id: req.user.id,
         });
         await skillEntry.save();
         res.status(200).json('Successful');
@@ -168,7 +183,18 @@ router.get('/profilepic', auth, async (req, res) => {
 
 router.post('/profilepic', upload.single('profile_pic'), auth, async (req, res) => {
     try {
-        res.send(req.file);
+        const basicDetails = await Student.findOne({
+            where: {
+                id: req.body.id,
+            },
+        });
+        if (basicDetails) {
+            await basicDetails.update({
+                profile_pic: req.file,
+            });
+            res.status(200).json(req.file);
+        }
+        // '../../../uploads/img2.jpg'
     } catch (e) {
         return res.status(400).json('Unable to fetch data.');
     }

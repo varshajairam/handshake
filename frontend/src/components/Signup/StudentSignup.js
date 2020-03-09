@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import { PATH } from '../../config';
 import { connect } from 'react-redux';
 import { addSignupEmail, addFirstName, addLastName, addSignupPassword, addCollegeName, setSignupError } from './store/action';
 
@@ -30,7 +31,7 @@ class StudentSignup extends Component {
         //                         {err.response.data}
         //                     </Alert>
         // }
-        axios.post("http://localhost:3001" + "/signup", data)
+        axios.post(PATH + "/signup", data)
         .then(res => {
             if(res.status == 200){
                 this.props.history.push('/login');

@@ -1,11 +1,14 @@
 import * as actionTypes from '../../../constants/action-types';
+import user from '../../../assets/user.png';
 
 const initialState = {
     basicDetails: null,
-    education: null,
+    education: [],
     experience: null,
     skillset: [],
-    mode: false
+    mode: false,
+    profile_pic: user,
+    edMode: false
 }
  
 const profileReducer = (state = initialState, action) => {
@@ -35,10 +38,20 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 mode: action.payload
             }
+        case actionTypes.CHANGE_EDUCATION_MODE:
+            return {
+                ...state,
+                edMode: action.payload
+            }
         case actionTypes.ENABLE_SAVE:
             return {
                 ...state,
                 save: action.payload
+            }
+        case actionTypes.SAVE_PROFILE_PIC:
+            return {
+                ...state,
+                profile_pic: action.payload
             }
         default:
             return initialState;

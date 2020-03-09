@@ -3,7 +3,6 @@ import { Card, Image, Button, Row, Col, Form } from 'react-bootstrap';
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import user from '../../assets/user.png';
 
 export const BasicDetails = (props) => {
     let content;
@@ -69,12 +68,19 @@ export const BasicDetails = (props) => {
             <Card.Body>
             <Row><Button variant="link" style={{paddingLeft: '300px'}} onClick={props.modeHandler}><FontAwesomeIcon icon={faEdit} /></Button></Row>
             <Row className="justify-content-center">
-                <Image src={user} width="100"
-                    height="100" roundedCircle />
-                <Button variant="link" style={{marginLeft: '-102px'}} onClick={props.modeHandler}><FontAwesomeIcon icon={faCamera} />
+                <Image src={props.profilePic} width="100"
+                    height="100" roundedCircle/>
+            </Row>
+            <Form method="post" onSubmit={props.addProfilePic}>
+                <div>
+                    <Form.Control type="file" id="file" name="file" multiple />
+                </div>
+                <div>
+                <Button type="submit" variant="link" ><FontAwesomeIcon icon={faCamera} />
                     <p className="text-muted font-weight-bold">Add Photo</p>
                 </Button>
-            </Row>
+                </div>
+            </Form>
             {content}
             </Card.Body>
         </Card>

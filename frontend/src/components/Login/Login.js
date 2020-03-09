@@ -26,7 +26,7 @@ class Login extends Component {
         // }
         axios.post(PATH + "/login", data)
         .then(res => {
-            if(res.status == 200){
+            if(res.status === 200){
                 this.props.authSuccess(res.data.token);
                 this.props.history.push('/dashboard');
             }
