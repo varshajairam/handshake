@@ -16,6 +16,9 @@ export const CareerObjective = (props) => {
                 <Button variant="success" type="submit">
                     Save
                 </Button>
+                <Button variant="danger" type="button" className = 'ml-2' onClick = { () => props.enableSave(false) }>
+                    Cancel
+                </Button>
                 </Form>
             </div>
         )

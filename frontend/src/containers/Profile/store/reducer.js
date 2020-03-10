@@ -7,8 +7,10 @@ const initialState = {
     experience: null,
     skillset: [],
     mode: false,
+    save: false,
     profile_pic: user,
-    edMode: false
+    edMode: false,
+    expMode: false
 }
  
 const profileReducer = (state = initialState, action) => {
@@ -42,6 +44,11 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 edMode: action.payload
+            }
+        case actionTypes.CHANGE_EXPERIENCE_MODE:
+            return {
+                ...state,
+                expMode: action.payload
             }
         case actionTypes.ENABLE_SAVE:
             return {

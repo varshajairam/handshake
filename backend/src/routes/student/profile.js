@@ -126,6 +126,7 @@ router.post('/experience', auth, async (req, res) => {
         const experience = req.body;
         const experienceEntry = new Experience({
             ...experience,
+            student_id: req.user.id,
         });
         await experienceEntry.save();
         res.status(200).json('Successful');
@@ -190,7 +191,7 @@ router.post('/profilepic', upload.single('profile_pic'), auth, async (req, res) 
         });
         if (basicDetails) {
             await basicDetails.update({
-                profile_pic: req.file,
+                profile_pic: req.file.filename,
             });
             res.status(200).json(req.file);
         }

@@ -8,7 +8,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { PATH } from '../../config';
-import { saveBasicDetails, saveEducationInfo, saveExperienceInfo, saveSkillset, changeMode, enableSave, saveProfilePic, changeEdMode } from './store/action';
+import { saveBasicDetails, saveEducationInfo, saveExperienceInfo, saveSkillset, changeMode, enableSave, saveProfilePic, changeEdMode, changeExpMode } from './store/action';
 
 class Profile extends Component {
 
@@ -30,13 +30,9 @@ class Profile extends Component {
         .then(res => {
             if(res.status === 200){
                 if(res.data){
-                    var base64Flag = 'data:image/jpeg;base64,';
-                    var binary = '';
-                    var bytes = [].slice.call(new Uint8Array(res.data.profile_pic.data));
-                    bytes.forEach((b) => binary += String.fromCharCode(b));
-                    //console.log(base64Flag + window.btoa(binary));
-                    res.data.profile_pic = base64Flag + window.btoa(binary);
-                    this.props.saveProfilePic(res.data.profile_pic);
+                    if(res.data.profile_pic) {
+                        this.props.saveProfilePic(PATH + "/" + res.data.profile_pic);
+                    }
                     this.props.saveBasicDetails({...res.data, editMode:false});
                     
                     if(res.data.career_obj){
@@ -100,10 +96,14 @@ class Profile extends Component {
         this.props.changeEdMode(mode);
     }
 
+    changeExpMode = (mode) => {
+        this.props.changeExpMode(mode);
+    }
+
     getExperienceInfo = () => {
         axios.get(PATH + "/profile/experience")
         .then(res => {
-            if(res.status == 200){
+            if(res.status === 200){
                 if(res.data){
                     this.props.saveExperienceInfo(res.data);
                 }
@@ -111,6 +111,37 @@ class Profile extends Component {
         })
         .catch(err=>{
             //this.props.setError(err.response.data);
+        })
+    }
+
+    updateExperienceInfo = (value) => {
+        let newExperience = [];
+        Object.assign(newExperience, this.props.experience);
+        newExperience.push(value);            
+        this.props.saveExperienceInfo(newExperience);
+    }
+
+    saveExperienceInfo = (event) => {
+        event.preventDefault();
+        const data = {
+            "company_name": event.target.elements[0].value,            
+            "title": event.target.elements[1].value,
+            "start_date": event.target.elements[2].value,
+            "end_date": event.target.elements[3].value,
+            "city": event.target.elements[4].value,
+            "state": event.target.elements[5].value,
+            "country": event.target.elements[6].value,
+            "work_description": event.target.elements[7].value     
+        }
+        axios.post(PATH + "/profile/experience", data)
+        .then(res => {
+            if(res.status === 200){
+                this.updateExperienceInfo(data);
+                this.changeExpMode(false);
+            }
+        })
+        .catch(err=>{
+            //this.props.authFail(err.response.data.msg);
         })
     }
 
@@ -139,8 +170,8 @@ class Profile extends Component {
         event.preventDefault();
         axios.post(PATH + "/profile/details", this.props.basicDetails)
         .then(res => {
-            if(res === 200){
-                this.props.mode = false;
+            if(res.status === 200){
+                this.changeMode({target : {innerText : 'Save'}});
             }
         })
         .catch(err=>{
@@ -149,14 +180,19 @@ class Profile extends Component {
     }
 
     changeMode = (event) => {
-        if(event.target.innerText = 'Cancel')
-            this.props.changeMode(true);
-        else
+        if(event.target.innerText === 'Cancel' || event.target.innerText === 'Save'){
             this.props.changeMode(false);
+        } else {
+            this.props.changeMode(true);
+        }
     }
 
     enableSave = (event) => {
-        this.props.enableSave(true);
+        if(!event){
+            this.props.enableSave(false);
+        } else {
+            this.props.enableSave(true);
+        }        
     }
 
     updateCareerObj = (event) => {
@@ -171,7 +207,7 @@ class Profile extends Component {
         axios.post(PATH + "/profile/details", this.props.basicDetails)
         .then(res => {
             if(res.status === 200){
-                this.props.save = false;
+                this.props.enableSave(false);
             }
         })
         .catch(err=>{
@@ -182,16 +218,17 @@ class Profile extends Component {
     updateSkillset = (value, action) => {
         let newSkills = [];
         Object.assign(newSkills, this.props.skillset);
+        let idx = newSkills.findIndex(skill => skill.toLowerCase() === value.toLowerCase());
         if(action === "remove") {
-            let idx = newSkills.findIndex(skill => skill === value);
             if(idx > -1) {
                 newSkills.splice(idx, 1);
             }
         }            
         else {
-            newSkills.push(value);
+            if(idx === -1) {
+                newSkills.push(value);
+            }            
         }
-            
         this.props.saveSkillset(newSkills);
     }
 
@@ -238,7 +275,7 @@ class Profile extends Component {
         })
         .then(res => {
             if(res.status === 200){
-                this.props.saveProfilePic(URL.createObjectURL(file));
+                this.props.saveProfilePic(PATH + "/" + file.name);
             }
         })
         .catch(err=>{
@@ -258,7 +295,7 @@ class Profile extends Component {
                         <Col sm={8} md={8} lg={8}>
                             <CareerObjective career_obj = {this.props.basicDetails ? this.props.basicDetails.career_obj : ''} updateHandler = {this.updateCareerObj} submitHandler={this.saveCareerObj} save = {this.props.save} enableSave={this.enableSave}></CareerObjective><br/>
                             <Education education = {this.props.education} submitHandler = {this.saveEducationInfo} changeEdMode = {this.changeEdMode} edMode = {this.props.edMode}></Education><br/>
-                            <Experience experience = {this.props.experience}></Experience>
+                            <Experience experience = {this.props.experience} submitHandler = {this.saveExperienceInfo} changeExpMode = {this.changeExpMode} expMode = {this.props.expMode}></Experience>
                         </Col>
                     </Row>
                 </Container>            
@@ -277,7 +314,8 @@ const mapStateToProps = (state) => {
         mode: state.profile.mode,
         save: state.profile.save,
         profile_pic: state.profile.profile_pic,
-        edMode: state.profile.edMode
+        edMode: state.profile.edMode,
+        expMode: state.profile.expMode
     };
 }
 
@@ -291,6 +329,7 @@ const mapDispatchToProps = (dispatch) => {
         enableSave: (data) => dispatch(enableSave(data)),
         saveProfilePic: (data) => dispatch(saveProfilePic(data)),
         changeEdMode: (data) => dispatch(changeEdMode(data)),
+        changeExpMode: (data) => dispatch(changeExpMode(data)),
     }
 }
 

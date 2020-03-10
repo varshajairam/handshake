@@ -4,24 +4,45 @@ import { Card, Form, Col, Button } from 'react-bootstrap';
 export const Education = (props) => {
     let content;
     
-    if(!props.edMode){
+    if(!props.edMode && props.education && props.education.length){
+    //     let education = props.education.map(ed => {
+    //     return(           
+    //         <div>
+    //             <Card.Text>
+    //                 College: {ed.college_name}
+    //             </Card.Text>
+    //             <Card.Text>
+    //                 Degree: {ed.degree}
+    //             </Card.Text>
+    //             <Card.Text>
+    //                 Year of Passing: {ed.year_of_passing}
+    //             </Card.Text>
+    //             <Card.Text>
+    //                 Major: {ed.major}
+    //             </Card.Text>
+    //             <Card.Text>
+    //                 GPA: {ed.cgpa}
+    //             </Card.Text>    
+    //         </div>
+    //     )
+    // })
         content = (
             <div>
                 <Card.Text>
-                    {(props.education && props.education.length) ? props.education[0].college_name : ''}
+                    College name: {(props.education && props.education.length) ? props.education[0].college_name : ''}
                 </Card.Text>
                 <Card.Text>
-                    {(props.education && props.education.length) ? props.education[0].degree : ''}
+                    Degree: {(props.education && props.education.length) ? props.education[0].degree : ''}
                 </Card.Text>
                 <Card.Text>
-                    {(props.education && props.education.length) ? props.education[0].year_of_passing: ''}
+                    Year of Passing: {(props.education && props.education.length) ? props.education[0].year_of_passing: ''}
                 </Card.Text>
                 <Card.Text>
-                    {(props.education && props.education.length) ? props.education[0].major: ''}
+                    Major: {(props.education && props.education.length) ? props.education[0].major: ''}
                 </Card.Text>
                 <Card.Text>
-                    {(props.education && props.education.length) ? props.education[0].cgpa: ''}
-                </Card.Text>    
+                    GPA: {(props.education && props.education.length) ? props.education[0].cgpa: ''}
+                </Card.Text>
             </div>
         );
     } else {
@@ -37,7 +58,15 @@ export const Education = (props) => {
                     <Form.Label>Degree</Form.Label>
                     <Form.Control as="select">
                         <option>Choose...</option>
-                        <option>...</option>
+                        <option>High School</option>
+                        <option>Associates</option>
+                        <option>Certificate</option>
+                        <option>Advanced Certificate</option>
+                        <option>Bachelors</option>
+                        <option>Masters</option>
+                        <option>Doctorate</option>
+                        <option>Postdoctoral Studies</option>
+                        <option>Non-Degree seeking</option>
                     </Form.Control>
                     </Form.Group>
                 </Form.Row>
@@ -65,13 +94,13 @@ export const Education = (props) => {
 
                     <Form.Group as={Col} controlId="formGridZip">
                     <Form.Label>Zip</Form.Label>
-                    <Form.Control />
+                    <Form.Control type="text" placeholder="Enter Zip" />
                     </Form.Group>
                 </Form.Row>
 
                 <Form.Group controlId="formGridGpa">
                     <Form.Label>GPA</Form.Label>
-                    <Form.Control />
+                    <Form.Control type="number" placeholder="Enter GPA" />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">

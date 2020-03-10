@@ -9,6 +9,9 @@ require('dotenv').config();
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
+console.log(__dirname + 'uploads');
+app.use(express.static('uploads'));
+
 const loginHandler = require('./src/routes/student/entryLogin');
 const studentProfileHandler = require('./src/routes/student/profile');
 

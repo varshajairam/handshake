@@ -14,14 +14,14 @@ export const Skillset = (props) => {
         <Card bg="light">
             <Card.Body>
             <Card.Title>Skills</Card.Title>
-            <Form onSubmit = {props.submitHandler}>
-            <Form.Group controlId="formBasicEmail">
-            <FormControl
-                placeholder="Add skills"
-                aria-label="Add skills"
-                aria-describedby="basic-addon2" name="skill"/>
-            </Form.Group>
-            <Button variant="outline-success" type="submit">Add</Button>
+            <Form onSubmit = {props.submitHandler} className="mb-2">
+                <Form.Group controlId="formBasicEmail">
+                <FormControl
+                    placeholder="Add skills"
+                    aria-label="Add skills"
+                    aria-describedby="basic-addon2" name="skill"/>
+                </Form.Group>
+                <Button variant="outline-success" type="submit">Add</Button>
             </Form>
             {skill}   
             </Card.Body>

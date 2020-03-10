@@ -32,34 +32,46 @@ export const BasicDetails = (props) => {
         );
     } else {
         content = (
-            <Form onSubmit={props.submitHandler}>
-                <Row>
-                    <Col>
-                        <Form.Label>
-                            First Name
-                    </Form.Label>
-                        <Form.Control defaultValue={props.details ? props.details.first_name : ''} readOnly />
-                    </Col>
-                    <Col>
-                        <Form.Label>
-                            Last Name
+            <div>
+                <Form method="post" onSubmit={props.addProfilePic} className="pl-5 pt-2">
+                    <div>
+                        <Form.Control type="file" id="file" name="file" multiple />
+                    </div>
+                    <div>
+                    <FontAwesomeIcon icon={faCamera} style={{marginBottom:'5px'}}/><Button type="submit" variant="link" >
+                        <p className="text-muted font-weight-bold">Add Photo</p>
+                    </Button>
+                    </div>
+                </Form>
+                <Form onSubmit={props.submitHandler}>
+                    <Row>
+                        <Col>
+                            <Form.Label>
+                                First Name
                         </Form.Label>
-                        <Form.Control placeholder="Last name" onChange={props.updateHandler}/>
-                    </Col>                    
-                </Row>
-                <Row>
-                    <Col>
-                    <Form.Control plaintext readOnly defaultValue={(props.education && props.education.length) ? props.education[0].college_name : ''} />
-                    <Form.Control plaintext readOnly defaultValue={(props.education && props.education.length) ? (props.education[0].degree + ', ' + props.education[0].major) : ''} />
-                    </Col>
-                </Row>
-                <Row className="mt-2">
-                    <Col>
-                        <Button type="submit" variant="success">Save</Button>
-                        <Button type="button" className="ml-2" variant="danger" onClick={props.modeHandler}>Cancel</Button>
-                    </Col>
-                </Row>
-            </Form>
+                            <Form.Control defaultValue={props.details ? props.details.first_name : ''} readOnly />
+                        </Col>
+                        <Col>
+                            <Form.Label>
+                                Last Name
+                            </Form.Label>
+                            <Form.Control placeholder="Last name" onChange={props.updateHandler}/>
+                        </Col>                    
+                    </Row>
+                    <Row>
+                        <Col>
+                        <Form.Control plaintext readOnly defaultValue={(props.education && props.education.length) ? props.education[0].college_name : ''} />
+                        <Form.Control plaintext readOnly defaultValue={(props.education && props.education.length) ? (props.education[0].degree + ', ' + props.education[0].major) : ''} />
+                        </Col>
+                    </Row>
+                    <Row className="mt-2">
+                        <Col>
+                            <Button type="submit" variant="success">Save</Button>
+                            <Button type="button" className="ml-2" variant="danger" onClick={props.modeHandler}>Cancel</Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </div>            
         )
     }
         
@@ -71,16 +83,6 @@ export const BasicDetails = (props) => {
                 <Image src={props.profilePic} width="100"
                     height="100" roundedCircle/>
             </Row>
-            <Form method="post" onSubmit={props.addProfilePic}>
-                <div>
-                    <Form.Control type="file" id="file" name="file" multiple />
-                </div>
-                <div>
-                <Button type="submit" variant="link" ><FontAwesomeIcon icon={faCamera} />
-                    <p className="text-muted font-weight-bold">Add Photo</p>
-                </Button>
-                </div>
-            </Form>
             {content}
             </Card.Body>
         </Card>

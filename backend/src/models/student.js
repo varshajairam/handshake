@@ -12,7 +12,7 @@ const studentModel = sequelize.define('student', {
     email_id: { type: Sequelize.STRING, unique: true, validate: { isEmail: true } },
     password: { type: Sequelize.STRING },
     phone_number: { type: Sequelize.STRING, unique: true },
-    profile_pic: { type: Sequelize.BLOB },
+    profile_pic: { type: Sequelize.STRING },
 });
 
 module.exports = studentModel;

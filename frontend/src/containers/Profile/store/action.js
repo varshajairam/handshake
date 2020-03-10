@@ -24,6 +24,10 @@ export const changeEdMode = (payload) => {
     return { type: actionTypes.CHANGE_EDUCATION_MODE, payload }
 };
 
+export const changeExpMode = (payload) => {
+    return { type: actionTypes.CHANGE_EXPERIENCE_MODE, payload }
+};
+
 export const enableSave = (payload) => {
     return { type: actionTypes.ENABLE_SAVE, payload }
 };

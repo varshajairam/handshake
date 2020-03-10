@@ -17,6 +17,8 @@ class Main extends Component {
             <Switch>                
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
+                <Route path="/student" component={StudentSignup} />
+                <Route path="/company" component={CompanySignup} />
                 <Redirect to='/' />
             </Switch>           
         );
@@ -24,8 +26,6 @@ class Main extends Component {
         if(localStorage.getItem('token')){
             routes = (
                 <Switch>                               
-                    <Route path="/student" component={StudentSignup} />
-                    <Route path="/company" component={CompanySignup} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/dashboard" component={Dashboard} />
