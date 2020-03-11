@@ -22,7 +22,7 @@ class Navigation extends Component {
                 {!localStorage.getItem('token') && <Link to='/login'>Sign In</Link>}
                 {!localStorage.getItem('token') && <Link className="pl-5" to='/signup'>Sign Up</Link>}
                 {localStorage.getItem('token') &&
-                <NavDropdown title="Username" id="collasible-nav-dropdown">
+                <NavDropdown title="User " id="collasible-nav-dropdown">
                     <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
@@ -31,5 +31,5 @@ class Navigation extends Component {
         );
     };
 };
-
+ 
 export default withRouter(connect(null)(Navigation));

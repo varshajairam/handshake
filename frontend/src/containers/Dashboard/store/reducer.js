@@ -2,7 +2,8 @@ import * as actionTypes from '../../../constants/action-types';
 
 const initialState = {
     jobs: [],
-    searchResults: []
+    searchResults: [],
+    openModal: false
 }
  
 const jobReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ const jobReducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchResults: action.payload,                
+            }
+        case actionTypes.CONTROL_MODAL:
+            return {
+                ...state,
+                openModal: action.payload,                
             }
         default:
             return initialState;
