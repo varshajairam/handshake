@@ -12,13 +12,13 @@ export const controlModal = (payload) => {
     return { type: actionTypes.CONTROL_MODAL, payload}
 };
 
-// export const saveSkillset = (payload) => {
-//     return { type: actionTypes.SAVE_SKILLSET, payload }
-// };
+export const saveResume = (payload) => {
+    return { type: actionTypes.SAVE_RESUME, payload }
+};
 
-// export const changeMode = (payload) => {
-//     return { type: actionTypes.CHANGE_MODE, payload }
-// };
+export const applyToJob = (payload) => {
+    return { type: actionTypes.APPLY_TO_JOB, payload }
+};
 
 // export const changeEdMode = (payload) => {
 //     return { type: actionTypes.CHANGE_EDUCATION_MODE, payload }

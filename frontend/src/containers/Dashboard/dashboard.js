@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { JobSearch } from '../../components/job-search/jobSearch';
 import { Jobs } from '../../components/jobs/jobs';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { PATH } from '../../config';
 import { connect } from 'react-redux';
-import { saveJobs, returnJobs, controlModal } from './store/action';
+import { saveJobs, returnJobs, controlModal, saveResume, applyToJob } from './store/action';
 
 class Dashboard extends Component {
 
     filters = [];
     selectedJob = {};
+    jobIdApplied = null;
 
     componentDidMount() {
         this.getJobs();
@@ -56,6 +57,32 @@ class Dashboard extends Component {
         this.selectedJob = job;
     }
 
+    saveResume = (event, jobId) => {        
+        event.preventDefault();
+        const formData = new FormData();
+        const file = event.target.form.elements[0].files[0];
+        formData.append('resume', file);
+        formData.append('id', jobId);
+        axios.post(PATH + "/jobs/application", formData, {
+            headers: {
+                'content-type':'multipart/form-data'
+            }
+        })
+        .then(res => {
+            if(res.status === 200){
+                this.jobIdApplied = jobId;
+                this.props.saveResume(PATH + "/" + file.name);
+            }
+        })
+        .catch(err=>{
+            //this.props.authFail(err.response.data.msg);
+        })        
+    }
+
+    applyToJob = () => {
+        this.props.applyToJob(true);
+    }
+
     render() {
         return (            
             <Container className="mt-5 mb-5">
@@ -64,7 +91,7 @@ class Dashboard extends Component {
                     <JobSearch submitHandler={this.search} recordFilters = { this.recordFilters }></JobSearch>
                 </div>
                 <div className="w-100 bg-light text-dark mt-5 p-5 shadow rounded">
-                    <Jobs jobs = { this.props.jobs } searchResults = { this.props.searchResults } controlModal = {this.controlModal} openModal = {this.props.openModal} selectedJob = {this.selectedJob}></Jobs>
+                    <Jobs jobs = { this.props.jobs } searchResults = { this.props.searchResults } controlModal = {this.controlModal} openModal = {this.props.openModal} selectedJob = {this.selectedJob} applyToJob = {this.applyToJob} success = {this.props.success} saveResume = {this.saveResume} jobIdApplied = {this.jobIdApplied}></Jobs>
                 </div>
             </Container>  
         )
@@ -75,7 +102,8 @@ const mapStateToProps = (state) => {
     return {
         jobs: state.job.jobs,
         searchResults: state.job.searchResults,
-        openModal: state.job.openModal
+        openModal: state.job.openModal,
+        success: state.job.success
     };
 }
 
@@ -83,9 +111,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         saveJobs: (data) => dispatch(saveJobs(data)),
         returnJobs: (data) => dispatch(returnJobs(data)),
-        controlModal: (data) => dispatch(controlModal(data))
-        // saveEducationInfo: (data) => dispatch(saveEducationInfo(data)),
-        // saveExperienceInfo: (data) => dispatch(saveExperienceInfo(data)),
+        controlModal: (data) => dispatch(controlModal(data)),
+        saveResume: (data) => dispatch(saveResume(data)),
+        applyToJob: (data) => dispatch(applyToJob(data)),
         // saveSkillset: (data) => dispatch(saveSkillset(data)),
         // changeMode: (data) => dispatch(changeMode(data)),
         // enableSave: (data) => dispatch(enableSave(data)),

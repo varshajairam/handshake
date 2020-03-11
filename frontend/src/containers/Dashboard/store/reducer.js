@@ -3,7 +3,9 @@ import * as actionTypes from '../../../constants/action-types';
 const initialState = {
     jobs: [],
     searchResults: [],
-    openModal: false
+    openModal: false,
+    resume: "",
+    success: false
 }
  
 const jobReducer = (state = initialState, action) => {
@@ -22,6 +24,16 @@ const jobReducer = (state = initialState, action) => {
             return {
                 ...state,
                 openModal: action.payload,                
+            }
+        case actionTypes.SAVE_RESUME:
+            return {
+                ...state,
+                resume: action.payload,                
+            }
+        case actionTypes.APPLY_TO_JOB:
+            return {
+                ...state,
+                success: action.payload,                
             }
         default:
             return initialState;

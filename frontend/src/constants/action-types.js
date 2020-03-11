@@ -21,3 +21,5 @@ export const CHANGE_EXPERIENCE_MODE = 'CHANGE_EXPERIENCE_MODE';
 export const SAVE_JOBS = 'SAVE_JOBS';
 export const RETURN_JOBS = 'RETURN_JOBS';
 export const CONTROL_MODAL = 'CONTROL_MODAL';
+export const SAVE_RESUME = 'SAVE_RESUME';
+export const APPLY_TO_JOB = 'APPLY_TO_JOB';

@@ -63,7 +63,7 @@ class Profile extends Component {
     updateEducationInfo = (value) => {
         let newEducation = [];
         Object.assign(newEducation, this.props.education);
-        newEducation.push(value);            
+        newEducation.push(value);       
         this.props.saveEducationInfo(newEducation);
     }
 

@@ -17,12 +17,13 @@ const upload = multer({ storage: storage });
 
 const auth = require('../../middleware/auth');
 
-const Student = require('../../models/student');
-const Education = require('../../models/education');
-const Experience = require('../../models/experience');
-const SkillSet = require('../../models/skillset');
+// const Student = require('../../models/student');
+// const Education = require('../../models/education');
+// const Experience = require('../../models/experience');
+// const SkillSet = require('../../models/skillset');
 const Job = require('../../models/job');
-const Company = require('../../models/company');
+const Application = require('../../models/application');
+//const Company = require('../../models/company');
 
 router.get('/', auth, async (req, res) => {
     try {
@@ -199,23 +200,31 @@ router.post('/', auth, async (req, res) => {
 //     }
 // });
 
-// router.post('/profilepic', upload.single('profile_pic'), auth, async (req, res) => {
-//     try {
-//         const basicDetails = await Student.findOne({
-//             where: {
-//                 id: req.body.id,
-//             },
-//         });
-//         if (basicDetails) {
-//             await basicDetails.update({
-//                 profile_pic: req.file.filename,
-//             });
-//             res.status(200).json(req.file);
-//         }
-//         // '../../../uploads/img2.jpg'
-//     } catch (e) {
-//         return res.status(400).json('Unable to fetch data.');
-//     }
-// });
+router.post('/application', upload.single('resume'), auth, async (req, res) => {
+    try {
+        const appEntry = await Application.findOne({
+            where: {
+                student_id: req.user.id,
+                job_id: req.body.id,
+            },
+        });
+        if (appEntry) {
+            await appEntry.update({
+                resume: req.file.filename,
+            });
+            res.status(200).json(req.file);
+        } else {
+            const newEntry = new Application({
+                student_id: req.user.id,
+                job_id: req.body.id,
+                resume: req.file.filename,
+            });
+            await newEntry.save();
+        }
+        res.status(200).json('Successful');
+    } catch (e) {
+        return res.status(500).json('Unable to save data.');
+    }
+});
 
 module.exports = router;
