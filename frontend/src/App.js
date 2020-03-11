@@ -8,6 +8,7 @@ import loginReducer from './components/Login/store/reducer';
 import signupReducer from './components/Signup/store/reducer';
 import logoutReducer from './components/Logout/store/reducer';
 import profileReducer from './containers/Profile/store/reducer';
+import jobReducer from './containers/Dashboard/store/reducer';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faEdit, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   login: loginReducer,
   signup: signupReducer,
   logout: logoutReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  job: jobReducer
 })
 
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
