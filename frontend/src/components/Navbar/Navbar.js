@@ -19,7 +19,7 @@ class Navigation extends Component {
                     />{' '}
                     Handshake</Navbar.Brand>                    
                     {localStorage.getItem('token') && <Nav.Link href="/dashboard">Dashboard</Nav.Link>}
-                    {localStorage.getItem('token') && <Nav.Link href="/application">Application</Nav.Link>}
+                    {localStorage.getItem('token') && <Nav.Link href="/application">Applications</Nav.Link>}
                     {localStorage.getItem('token') && <Nav.Link href="/event">Events</Nav.Link>}
                 </Nav>
                 {!localStorage.getItem('token') && <Link to='/login'>Sign In</Link>}

@@ -7,6 +7,10 @@ const applicationModel = sequelize.define('application', {
     },
     status: {
         type: Sequelize.STRING,
+        defaultValue: 'Pending',
+    },
+    applied_date: {
+        type: Sequelize.DATE,
     },
     job_id: {
         type: Sequelize.INTEGER,
