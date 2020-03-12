@@ -27,16 +27,7 @@ const Application = require('../../models/application');
 
 router.get('/', auth, async (req, res) => {
     try {
-        let jobs;
-        if (req.title) {
-            jobs = await Job.findAll({
-                where: {
-                    title: req.title,
-                },
-            });
-        } else {
-            jobs = await Job.findAll();
-        }
+        const jobs = await Job.findAll();
         if (jobs) {
             return res.status(200).json(jobs);
         }

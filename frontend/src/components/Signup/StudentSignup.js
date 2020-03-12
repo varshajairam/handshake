@@ -17,23 +17,10 @@ class StudentSignup extends Component {
             entity: "student"
         };
         axios.defaults.withCredentials = true;
-        // try{
-        //     let response = await axios.post("http://localhost:3001" + "/signup", data);
-            
-        //     if(response.status == 200){
-        //         console.log("yes");
-        //         //this.props.history.push('/dashboard');
-        //     } else {
-        //         console.log(response);
-        //     }
-        // } catch(err){
-        //     this.errorMsg = <Alert variant="danger">
-        //                         {err.response.data}
-        //                     </Alert>
-        // }
         axios.post(PATH + "/signup", data)
         .then(res => {
             if(res.status == 200){
+                localStorage.setItem('first_name', this.props.first_name);
                 this.props.history.push('/login');
             }
         })

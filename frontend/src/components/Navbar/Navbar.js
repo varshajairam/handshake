@@ -17,16 +17,19 @@ class Navigation extends Component {
                         height="30"
                         className="d-inline-block align-top"
                     />{' '}
-                    Handshake</Navbar.Brand>
-                    {!localStorage.getItem('token') && <Link to='/login'>Sign In</Link>}
-                    {!localStorage.getItem('token') && <Link className="pl-5" to='/signup'>Sign Up</Link>}
-                    {localStorage.getItem('token') &&
-                    <NavDropdown title="User " id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
-                    </NavDropdown>}
-                </Nav>                
+                    Handshake</Navbar.Brand>                    
+                    {localStorage.getItem('token') && <Nav.Link href="/dashboard">Dashboard</Nav.Link>}
+                    {localStorage.getItem('token') && <Nav.Link href="/application">Application</Nav.Link>}
+                    {localStorage.getItem('token') && <Nav.Link href="/event">Events</Nav.Link>}
+                </Nav>
+                {!localStorage.getItem('token') && <Link to='/login'>Sign In</Link>}
+                {!localStorage.getItem('token') && <Link className="pl-5" to='/signup'>Sign Up</Link>}
+                {localStorage.getItem('token') &&
+                <NavDropdown title={localStorage.getItem('first_name') ? localStorage.getItem('first_name') : "User"} id="collasible-nav-dropdown">
+                    <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
+                </NavDropdown>}
             </Navbar>
         );
     };

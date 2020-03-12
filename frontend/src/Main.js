@@ -7,7 +7,8 @@ import StudentSignup from './components/Signup/StudentSignup';
 import CompanySignup from './components/Signup/CompanySignup';
 import Profile from './containers/Profile/profile';
 import Logout from './components/Logout/logout';
-import Dashboard from './containers/Dashboard/dashboard'
+import Dashboard from './containers/Dashboard/dashboard';
+import Event from './containers/Event/event';
 import { connect } from 'react-redux';
 
 class Main extends Component {
@@ -29,6 +30,8 @@ class Main extends Component {
                     <Route path="/profile" component={Profile} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/dashboard" component={Dashboard} />
+                    {/* <Route path="/application" component={Application} /> */}
+                    <Route path="/event" component={Event} />
                     <Redirect to='/' />
                 </Switch>
             );

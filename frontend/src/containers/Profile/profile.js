@@ -77,14 +77,14 @@ class Profile extends Component {
             "city": event.target.elements[4].value,
             "state": event.target.elements[5].value,            
             "zip": event.target.elements[6].value,
-            "gpa": event.target.elements[7].value           
+            "cgpa": event.target.elements[7].value           
         }
         axios.post(PATH + "/profile/education", data)
         .then(res => {
             if(res.status === 200){
+                localStorage.setItem('major', data.major);
                 this.updateEducationInfo(data);
                 this.changeEdMode(false);
-                //this.props.mode = false;
             }
         })
         .catch(err=>{

@@ -3,7 +3,10 @@ const { sequelize } = require('../db/sequelize');
 
 const applicationModel = sequelize.define('application', {
     resume: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+    },
+    status: {
+        type: Sequelize.STRING,
     },
     job_id: {
         type: Sequelize.INTEGER,
