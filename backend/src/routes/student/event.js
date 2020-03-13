@@ -16,9 +16,8 @@ const router = express.Router();
 // const upload = multer({ storage: storage });
 
 const auth = require('../../middleware/auth');
-const Event = require('../../db/sequelize');
-const Company = require('../../db/sequelize');
-const Student = require('../../db/sequelize');
+const Event = require('../../models/event');
+//const Company = require('../../models/company');
 
 router.get('/', auth, async (req, res) => {
     try {
@@ -42,30 +41,6 @@ router.get('/', auth, async (req, res) => {
             return res.status(200).json(events);
         }
     } catch (e) {
-        return res.status(500).json('Unable to fetch data.');
-    }
-});
-
-router.get('/all', auth, async (req, res) => {
-    try {
-        let events;
-        console.log(Event);
-        events = await Event.Event.findAll({
-            where: {
-                company_id: req.query.companyId,
-            },
-            include: [{
-                model: Student,
-            },
-            {
-                model: Company,
-            }]
-        });
-        if (events) {
-            return res.status(200).json(events);
-        }
-    } catch (e) {
-        console.log(e)
         return res.status(500).json('Unable to fetch data.');
     }
 });

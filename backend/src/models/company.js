@@ -1,8 +1,7 @@
-// const Sequelize = require('sequelize');
-// const { sequelize } = require('../db/sequelize');
+const Sequelize = require('sequelize');
+const { sequelize } = require('../db/sequelize');
 
-const companyModel = (sequelize, Sequelize) => {
-    return sequelize.define('company', {
+const companyModel = sequelize.define('company', {
         name: { type: Sequelize.STRING },
         city: { type: Sequelize.STRING },
         state: { type: Sequelize.STRING },
@@ -12,6 +11,5 @@ const companyModel = (sequelize, Sequelize) => {
         contact_number: { type: Sequelize.STRING },
         profile_pic: { type: Sequelize.STRING },
     });
-};
 
 module.exports = companyModel;
