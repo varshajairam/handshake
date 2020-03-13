@@ -11,6 +11,8 @@ import profileReducer from './containers/Profile/store/reducer';
 import jobReducer from './containers/Dashboard/store/reducer';
 import eventReducer from './containers/Event/store/reducer';
 import applicationReducer from './containers/Application/store/reducer';
+import createJobReducer from './components/create-job/store/reducer';
+import createEventReducer from './components/create-event/store/reducer';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faEdit, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -26,6 +28,8 @@ const rootReducer = combineReducers({
   job: jobReducer,
   event: eventReducer,
   app: applicationReducer,
+  createjob: createJobReducer,
+  createevent: createEventReducer
 })
 
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

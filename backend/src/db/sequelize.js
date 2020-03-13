@@ -1,4 +1,7 @@
 const Sequelize = require('sequelize');
+const CompanyModel = require('../models/company');
+const StudentModel = require('../models/student');
+const Event = require('../models/event');
 
 const options = {
     freezeTableName: true,
@@ -15,6 +18,13 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.USER, process.
     },
     define: { ...options },
 });
+
+const Students = StudentModel(sequelize, Sequelize);
+const Company = CompanyModel(sequelize, Sequelize);
+const Events = Event(sequelize, Sequelize);
+
+Events.belongsTo(Students);
+Events.belongsTo(Company);
 
 sequelize
     .authenticate()
@@ -33,3 +43,6 @@ sequelize.sync()
 })
 
 module.exports.sequelize = sequelize;
+module.exports.Student = Students;
+module.exports.Company = Company;
+module.exports.Event = Events;

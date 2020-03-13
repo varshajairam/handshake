@@ -10,6 +10,9 @@ import Logout from './components/Logout/logout';
 import Dashboard from './containers/Dashboard/dashboard';
 import Event from './containers/Event/event';
 import Application from './containers/Application/application';
+import CreateJob from './components/create-job/create-job';
+import CreateEvent from './components/create-event/create-event';
+import CompanyDashboard from './containers/CompanyDashboard/company-dashboard';
 import { connect } from 'react-redux';
 
 class Main extends Component {
@@ -33,6 +36,9 @@ class Main extends Component {
                     <Route path="/dashboard" component={Dashboard} />
                     <Route path="/application" component={Application} />
                     <Route path="/event" component={Event} />
+                    <Route path="/createjob" component={CreateJob} />
+                    <Route path="/createevent" component={CreateEvent} />
+                    <Route path="/companydashboard" component={CompanyDashboard} />
                     <Redirect to='/' />
                 </Switch>
             );
