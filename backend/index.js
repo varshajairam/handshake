@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 require('dotenv').config();
-
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+// 'http://localhost:3000'
+app.use(cors({ origin: 'http://13.52.163.10:3000', credentials: true }));
 
 app.use(express.static('uploads'));
 
