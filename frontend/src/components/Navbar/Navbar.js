@@ -25,12 +25,13 @@ class Navigation extends Component {
                 {!localStorage.getItem('token') && <Link to='/login'>Sign In</Link>}
                 {!localStorage.getItem('token') && <Link className="pl-5" to='/signup'>Sign Up</Link>}
                 {localStorage.getItem('token') &&
-                <NavDropdown title={localStorage.getItem('first_name') ? localStorage.getItem('first_name') : "User"} id="collasible-nav-dropdown">
+                <NavDropdown title={"User"} id="collasible-nav-dropdown">
                     <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/logout">Sign Out</NavDropdown.Item>
                 </NavDropdown>}
             </Navbar>
+            //localStorage.getItem('first_name') ? localStorage.getItem('first_name') :
         );
     };
 };

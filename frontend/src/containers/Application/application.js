@@ -50,18 +50,20 @@ class Application extends Component {
                             applied_date: ""
                         };
                         let idx = res.data.findIndex((job) => {
-                            return job.id === app.id;
+                            return job.id === app.job_id;
                         });
-                        jobModel.title = res.data[idx].title;
-                        jobModel.posting_date = res.data[idx].posting_date;
-                        jobModel.app_deadline = res.data[idx].app_deadline;
-                        jobModel.location = res.data[idx].location;
-                        jobModel.salary = res.data[idx].salary;
-                        jobModel.description = res.data[idx].description;
-                        jobModel.job_type = res.data[idx].job_type;
-                        jobModel.status = app.status;
-                        jobModel.applied_date = app.applied_date;
-                        completeJobs.push(jobModel);
+                        if(idx > -1){
+                            jobModel.title = res.data[idx].title;
+                            jobModel.posting_date = res.data[idx].posting_date;
+                            jobModel.app_deadline = res.data[idx].app_deadline;
+                            jobModel.location = res.data[idx].location;
+                            jobModel.salary = res.data[idx].salary;
+                            jobModel.description = res.data[idx].description;
+                            jobModel.job_type = res.data[idx].job_type;
+                            jobModel.status = app.status;
+                            jobModel.applied_date = app.applied_date;
+                            completeJobs.push(jobModel);
+                        }                        
                     })                    
                     this.props.saveJobs(completeJobs);
                 }

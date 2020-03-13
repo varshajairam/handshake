@@ -36,6 +36,7 @@ class Event extends Component {
             if(res.status === 200){
                 if(res.data){
                     this.props.saveEvents(res.data);
+                    this.props.returnEvents([]);
                 }
             }
         })
